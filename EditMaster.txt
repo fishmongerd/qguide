@@ -1,0 +1,138 @@
+GENTOO-NoExplanation
+
+
+
+# cfdisk /dev/sda
+# mkdir /mnt/gentoo
+# mkfs.ext4 /dev/sda3
+# mount /dev/sda3 /mnt/gentoo
+# mkdir -p /mnt/gentoo/boot/efi/
+# mkfs.fat -F 32 /dev/sda1
+# mount /dev/sda1 /mnt/gentoo/boot/efi
+# mkswap /dev/sda2
+# swapon /dev/sda2
+
+Stage tarball and basic compile options
+
+# cd /mnt/gentoo
+# wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/20230705T183202Z/stage3-amd64-openrc-20230705T183202Z.tar.xz
+# tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+# nano -w /mnt/gentoo/etc/portage/make.conf
+
+Chrooting (use this as a gentoo chrooting standalone guide with slight mods)
+
+# cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+
+# mount --types proc /proc /mnt/gentoo/proc
+# mount --rbind /sys /mnt/gentoo/sys
+# mount --make-rslave /mnt/gentoo/sys
+# mount --rbind /dev /mnt/gentoo/dev
+# mount --make-rslave /mnt/gentoo/dev
+# mount --bind /run /mnt/gentoo/run
+# mount --make-slave /mnt/gentoo/run
+
+For Mint live media
+(
+# test -L /dev/shm && rm /dev/shm && mkdir /dev/shm
+# mount --types tmpfs --options nosuid,nodev,noexec shm /dev/shm
+# chmod 1777 /dev/shm /run/shm
+)
+
+# chroot /mnt/gentoo /bin/bash
+# source /etc/profile
+# export PS1="(chroot) ${PS1}"
+
+# emerge-webrsync
+# emerge --sync
+# eselect profile list
+# eselect profile set 1
+# emerge -avuDN @world
+# nano -w /etc/portage/make.conf
+        USE="*"
+        ACCEPT_LICENSE="*"
+# echo "Europe/Helsinki" > /etc/timezone
+# emerge --config sys-libs/timezone-data
+# nano -W /etc/locale.gen
+# locale-gen
+# eselect locale list
+# eselect profile set 4
+# env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
+# emerge --ask sys-kernel/linux-firmware
+# emerge sys-kernel/installkernel-gentoo
+# emerge sys-kernel/gentoo-kernel-bin
+
+fstab (raw script, root, live media)
+new window
+
+$ sudo su
+# cd
+# ls
+genfstab
+
+# chmod +x genfstab
+# ./genfstab -U /mnt/gentoo >> /mnt/gentoo/etc/fstab
+
+back to gentoo build env
+
+# nano /etc/fstab
+remove tracers check all
+
+# nano /etc/conf.d/hostname
+# nano /etc/hosts
+# passwd
+# nano /etc/conf.d/keymaps
+# emerge dhcpcd sudo neofetch grub efibootmgr
+# grub-install /dev/sda
+# grub-mkconfig -o /boot/grub/grub.cfg
+# EDITOR=nano visudo
+%wheel ALL=(ALL) ALL
+
+# useradd -m -G wheel,users,audio,video,usb -s /bin/bash vandros
+# passwd vandros
+
+# exit
+# exit
+$ sudo umount -a
+$ reboot
+
+GENTOO AFTER MINIMAL
+
+login
+
+$ neofetch
+# eselect profile set 9
+# emerge -avuDN @world plasma-meta
+
+# rc-update add elogind boot
+# rc-update add udev sysinit
+# rc-update add dbus default
+# nano /etc/conf.d/display-manager
+sddm
+# rc-update add display-manager default
+
+# emerge kde-apps/kdecore-meta
+
+should have like a regular usable desktop and shit here it should boot into sddm
+
+now get all the shit (gaming and rice and make sure vim if not already vim)
+
+or use GNUnano forever thats test0
+
+# emerge discord firefox-bin bismuth kvantum ark vim wine-staging winetricks lutris vulkan-loader spotify barrier
+
+# nano /etc/security/limits.conf
+vandros hard nofile 52428
+
+
+
+
+ARCH
+
+https://wiki.archlinux.org/title/Installation_guide
+
+and just arch bro
+
+it's easy
+
+
+
