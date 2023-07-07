@@ -81,7 +81,7 @@ remove tracers check all
 # nano /etc/hosts
 # passwd
 # nano /etc/conf.d/keymaps
-# emerge dhcpcd sudo neofetch grub efibootmgr
+# emerge dhcpcd sudo neofetch grub efibootmgr (Iphone usb tether(usbmuxd ifuse))
 # grub-install /dev/sda
 # grub-mkconfig -o /boot/grub/grub.cfg
 # EDITOR=nano visudo
@@ -125,14 +125,6 @@ vandros hard nofile 52428
 
 
 
-
-ARCH
-
-https://wiki.archlinux.org/title/Installation_guide
-
-and just arch bro
-
-it's easy
 
 
 
