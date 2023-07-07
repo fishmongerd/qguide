@@ -123,6 +123,10 @@ or use GNUnano forever thats test0
 # nano /etc/security/limits.conf
 vandros hard nofile 52428
 
+pull in latest kernel sources and make menuconfig
+
+
+
 
 
 
